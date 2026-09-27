@@ -248,7 +248,7 @@ def in_a_message(key):
     return match, best
 
 
-app = FastAPI(title="The Assistant", docs_url="/api/v1/docs", openapi_url="/api/v1/openapi.json", redoc_url=None)
+app = FastAPI(title="Alfred", docs_url="/api/v1/docs", openapi_url="/api/v1/openapi.json", redoc_url=None)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[origin.strip() for origin in settings.cors_origins.split(",")],

@@ -1,4 +1,4 @@
-export const PRODUCT_NAME = "The Assistant";
+export const PRODUCT_NAME = "Alfred";
 
 export const LOGO_SRC = "/the-assistant-logo.png";
 

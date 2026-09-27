@@ -87,7 +87,7 @@ def add_note(created, title: str, content: str = "") -> dict:
 
 def test_the_modelfile_drives_the_persona_and_the_model_comes_from_the_environment():
     assert main.MODEL == "test-model"
-    assert "You are The Assistant" in main.SYSTEM_PROMPT
+    assert "You are Alfred" in main.SYSTEM_PROMPT
     assert main.OPTIONS["temperature"] == 0.6
 
 
