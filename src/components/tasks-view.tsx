@@ -253,7 +253,7 @@ function TaskRow({ task, today, isEditing, onEdit, onChange, onDelete }: TaskRow
             title="Rename task"
             onClick={() => onEdit(task.id)}
             className={cn(
-              "w-full text-left [overflow-wrap:anywhere]",
+              "w-full text-left wrap:anywhere",
               task.done && "text-muted-foreground line-through",
             )}
           >
