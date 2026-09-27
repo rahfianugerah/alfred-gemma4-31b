@@ -101,7 +101,9 @@ The list sits beside the open note; on a phone they take turns. Press **+** for 
 
 ### Tasks
 
-Type a task, optionally pick a due date, and press **+**. Open tasks are grouped into **Overdue**, **Today**, **Upcoming**, and **No Date**, and the filter switches between Open, Done, and All. **Click the circle to check a task off**, click its title to rename it, and click its date, or **Add date** on hover, to pick one in the browser's date picker, whose Clear button removes it. The bin deletes a task at once.
+Type a task, optionally pick a due date, and press **+**. Open tasks are grouped into **Overdue**, **Today**, **Upcoming**, and **No Date**, and the filter switches between Open, Done, and All. **Click the circle to check a task off**, click its title to rename it, and click its date, or **Add date** on hover, to change it. The bin deletes a task at once.
+
+**Dates are picked in Alfred's own calendar** and read the same on every machine, such as `28 Sep 2026`. It opens on the chosen day, or on today. Click the month to switch to months, and again for years; picking one walks back down to the days. The arrow keys move by day, Page Up and Page Down by month, Home and End to the ends of the week, and Enter picks. **Today** picks today, **Clear** removes the date, and Escape closes it without a change. It reaches two years back and ten years ahead.
 
 ## Configuration
 
