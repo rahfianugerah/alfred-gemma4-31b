@@ -119,7 +119,7 @@ const INITIAL_COMPONENTS: Partial<Components> = {
         <CodeBlockCode
           code={text}
           language={language}
-          className="max-sm:[&_pre]:whitespace-pre-wrap max-sm:[&_pre]:[overflow-wrap:anywhere]"
+          className="max-sm:[&_pre]:whitespace-pre-wrap max-sm:[&_pre]:wrap:anywhere"
         />
       </CodeBlock>
     )
@@ -173,7 +173,7 @@ function MarkdownComponent({
 
   // A long link, identifier, or word breaks where it must, so nothing runs past a narrow screen
   return (
-    <div className={cn("[overflow-wrap:anywhere]", className)}>
+    <div className={cn("wrap:anywhere", className)}>
       {blocks.map((block, index) => (
         <MemoizedMarkdownBlock
           key={`${blockId}-block-${index}`}
