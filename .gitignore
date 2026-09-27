@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +40,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# keys, credentials, and model weights
+*.key
+keys/
+secrets/
+credentials/
+*.gguf
+*.safetensors
