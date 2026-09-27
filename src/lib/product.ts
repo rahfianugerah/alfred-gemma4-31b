@@ -1,6 +1,7 @@
 export const PRODUCT_NAME = "Alfred";
 
-export const LOGO_SRC = "/the-assistant-logo.png";
+// A 512px crop of the mascot's face from public/alfred-gemma4-31b.png, small enough for every avatar
+export const LOGO_SRC = "/alfred.webp";
 
 // What the main area shows, kept in the URL as ?view=notes or ?view=tasks; chat is the default
 export type View = "chat" | "notes" | "tasks";
