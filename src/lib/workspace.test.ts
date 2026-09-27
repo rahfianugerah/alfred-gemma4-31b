@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { dueLabel, groupOf, plainPreview, stripActions } from "./workspace.ts";
+import { dueLabel, formatDate, groupOf, isoDate, parseIsoDate, plainPreview, stripActions } from "./workspace.ts";
 
 test("suggestion blocks are cut out of a reply, finished or not", () => {
   const block = '```action\n{"type": "create_task", "title": "Call Sam"}\n```';
@@ -26,6 +26,15 @@ test("a task's group and due label follow today's date", () => {
   assert.equal(groupOf({ done: true, due_on: "2026-09-01" }, today), "Done");
   assert.equal(dueLabel("2026-09-28", today), "Tomorrow");
   assert.equal(dueLabel("2026-10-01", today), "Thursday");
-  assert.equal(dueLabel("2026-10-20", today), "Oct 20");
-  assert.equal(dueLabel("2027-01-05", today), "Jan 5, 2027");
+  assert.equal(dueLabel("2026-10-20", today), "20 Oct 2026");
+});
+
+test("a calendar date keeps its day in every time zone", () => {
+  assert.equal(formatDate("2027-01-05"), "05 Jan 2027");
+  assert.deepEqual(parseIsoDate("2026-02-28"), { year: 2026, month: 1, day: 28 });
+  assert.equal(parseIsoDate("2026-02-30"), null);
+  assert.equal(parseIsoDate("0000-13-01"), null);
+  assert.equal(parseIsoDate("28/02/2026"), null);
+  assert.equal(isoDate(2026, 11, 32), "2027-01-01");
+  assert.equal(isoDate(2026, 2, 0), "2026-02-28");
 });

@@ -2,6 +2,7 @@
 
 import { CalendarPlus, CheckCircle2, Circle, Loader2, Plus, Search, Sparkles, Trash2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { DatePicker } from "@/components/date-picker";
 import { TitleEditor } from "@/components/title-editor";
 import { Button } from "@/components/ui/button";
 import { SystemMessage } from "@/components/ui/system-message";
@@ -24,7 +25,7 @@ export function TasksView() {
   const [loaded, setLoaded] = useState<{ key: string; tasks: Task[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
-  const [due, setDue] = useState("");
+  const [due, setDue] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const key = `${status}:${query.trim()}`;
   const tasks = loaded?.key === key ? loaded.tasks : null;
@@ -55,10 +56,10 @@ export function TasksView() {
     event.preventDefault();
     if (!title.trim()) return;
     try {
-      const task = await createTask(title.trim(), due || null);
+      const task = await createTask(title.trim(), due);
       if (status !== "done") setTasks((list) => [...list, task]);
       setTitle("");
-      setDue("");
+      setDue(null);
     } catch (err) {
       setError(describeError(err));
     }
@@ -103,22 +104,20 @@ export function TasksView() {
           </SystemMessage>
         )}
 
-        <form onSubmit={add} className="border-input bg-popover flex items-center gap-2 rounded-2xl border p-2 shadow-xs">
+        {/* On a phone the date takes its own full-width row, so its calendar gets the full width too */}
+        <form
+          onSubmit={add}
+          className="border-input bg-popover flex flex-wrap items-center gap-2 rounded-2xl border p-2 shadow-xs"
+        >
           <input
             aria-label="New Task"
             value={title}
             maxLength={300}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Add a task"
-            className="min-w-0 flex-1 bg-transparent px-2 text-base outline-none"
+            className="min-w-0 flex-1 basis-full bg-transparent px-2 py-1.5 text-base outline-none sm:basis-0"
           />
-          <input
-            type="date"
-            aria-label="Due Date"
-            value={due}
-            onChange={(event) => setDue(event.target.value)}
-            className={cn("text-muted-foreground w-34 rounded-md bg-transparent px-1 text-sm outline-none", due && "text-foreground")}
-          />
+          <DatePicker label="Due date" value={due} onChange={setDue} className="flex-1 sm:w-64 sm:flex-none" />
           <Button type="submit" size="icon" aria-label="Add Task" className="shrink-0 rounded-full" disabled={!title.trim()}>
             <Plus />
           </Button>
@@ -218,7 +217,9 @@ type TaskRowProps = {
 };
 
 function TaskRow({ task, today, isEditing, onEdit, onChange, onDelete }: TaskRowProps) {
-  const dateRef = useRef<HTMLInputElement>(null);
+  // The date chip turns into a date field with its calendar open, and back once a date is picked
+  const [isPickingDate, setIsPickingDate] = useState(false);
+  const chipRef = useRef<HTMLButtonElement>(null);
   const isOverdue = !task.done && task.due_on !== null && task.due_on < today;
 
   return (
@@ -261,11 +262,25 @@ function TaskRow({ task, today, isEditing, onEdit, onChange, onDelete }: TaskRow
         )}
 
         <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
-          {/* The chip opens the browser's own date picker, whose Clear button removes the date */}
-          <span className="relative">
+          {isPickingDate ? (
+            <DatePicker
+              label={`Due date for ${task.title}`}
+              value={task.due_on}
+              onChange={(due_on) => onChange({ due_on })}
+              defaultOpen
+              onClose={(returnedFocus) => {
+                setIsPickingDate(false);
+                // Focus goes back to the chip that stands in for the field again
+                if (returnedFocus) requestAnimationFrame(() => chipRef.current?.focus());
+              }}
+              className="w-64 max-w-full"
+            />
+          ) : (
             <button
+              ref={chipRef}
               type="button"
-              onClick={() => dateRef.current?.showPicker()}
+              aria-label={task.due_on ? `Due ${dueLabel(task.due_on, today)}, change the date` : "Add a due date"}
+              onClick={() => setIsPickingDate(true)}
               className={cn(
                 "flex items-center gap-1 rounded-md px-1.5 py-0.5",
                 task.due_on
@@ -287,16 +302,7 @@ function TaskRow({ task, today, isEditing, onEdit, onChange, onDelete }: TaskRow
                 </>
               )}
             </button>
-            <input
-              ref={dateRef}
-              type="date"
-              tabIndex={-1}
-              aria-hidden="true"
-              value={task.due_on ?? ""}
-              onChange={(event) => onChange({ due_on: event.target.value || null })}
-              className="pointer-events-none absolute inset-0 opacity-0"
-            />
-          </span>
+          )}
           {task.source === "assistant" && (
             <span className="text-muted-foreground flex items-center gap-1">
               <Sparkles className="size-3" aria-hidden="true" />

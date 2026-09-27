@@ -39,15 +39,46 @@ export function groupOf(task: { done: boolean; due_on: string | null }, today: s
   return task.due_on === today ? "Today" : "Upcoming";
 }
 
-/** "Today", "Tomorrow", a weekday within the week, or a short date. */
+// A calendar date is a day, not an instant, so every date here is built and read in UTC, where no
+// time zone can move it to the day before
+const utcDay = (iso: string) => new Date(`${iso}T00:00:00Z`);
+
+const DAY_MONTH_YEAR = new Intl.DateTimeFormat("en-US", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const WEEKDAY = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "UTC" });
+
+/** The format every date is shown in, for a placeholder to say which order the parts come in. */
+export const DATE_PLACEHOLDER = "dd mmm yyyy";
+
+/** The one display format for a calendar date, the same for every user: "28 Sep 2026". */
+export function formatDate(iso: string): string {
+  const parts = Object.fromEntries(DAY_MONTH_YEAR.formatToParts(utcDay(iso)).map((part) => [part.type, part.value]));
+  return `${parts.day} ${parts.month} ${parts.year}`;
+}
+
+/** The parts of a YYYY-MM-DD date, month from 0, or null when it is not a real date. */
+export function parseIsoDate(value: string | null): { year: number; month: number; day: number } | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value ?? "");
+  if (!match) return null;
+  const [year, month, day] = match.slice(1).map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCMonth() === month - 1 && date.getUTCDate() === day ? { year, month: month - 1, day } : null;
+}
+
+/** YYYY-MM-DD for a year, a month from 0, and a day, rolling over into the next or previous month. */
+export function isoDate(year: number, month: number, day: number): string {
+  return new Date(Date.UTC(year, month, day)).toISOString().slice(0, 10);
+}
+
+/** "Today", "Tomorrow", a weekday within the week, or the date. */
 export function dueLabel(due: string, today: string): string {
-  const days = (Date.parse(due) - Date.parse(today)) / 86_400_000;
+  const days = (utcDay(due).getTime() - utcDay(today).getTime()) / 86_400_000;
   if (days === 0) return "Today";
   if (days === 1) return "Tomorrow";
   if (days === -1) return "Yesterday";
-  const format: Intl.DateTimeFormatOptions =
-    days > 1 && days < 7
-      ? { weekday: "long" }
-      : { month: "short", day: "numeric", ...(due.slice(0, 4) !== today.slice(0, 4) && { year: "numeric" }) };
-  return new Date(`${due}T00:00:00Z`).toLocaleDateString("en-US", { ...format, timeZone: "UTC" });
+  return days > 1 && days < 7 ? WEEKDAY.format(utcDay(due)) : formatDate(due);
 }
