@@ -1,6 +1,6 @@
 import { PRODUCT_NAME } from "@/lib/product";
 
-export const API_URL = process.env.NEXT_PUBLIC_ASSISTANT_URL ?? "http://127.0.0.1:8200";
+export const API_URL = process.env.NEXT_PUBLIC_ASSISTANT_URL ?? "http://127.0.0.1:8000";
 
 type Source = "user" | "assistant";
 type Match = "exact" | "prefix" | "fuzzy" | null;

@@ -24,7 +24,7 @@ One caller, The Assistant website on the same machine. It manages notes and task
 
 | Item | Value |
 | :- | :- |
-| Base URL | `http://127.0.0.1:8200` |
+| Base URL | `http://127.0.0.1:8000` |
 | Base path | `api/v1` |
 | Protocol | HTTP, on the loopback interface only |
 | Content type | `application/json`, and `application/x-ndjson` for a streamed reply |
@@ -280,7 +280,7 @@ Request body:
 Example request:
 
 ```bash
-curl -N -X POST "http://127.0.0.1:8200/api/v1/conversations/0b7c1e2a-4d1f-4f7e-9a53-2f0c8d1b6e44/messages" \
+curl -N -X POST "http://127.0.0.1:8000/api/v1/conversations/0b7c1e2a-4d1f-4f7e-9a53-2f0c8d1b6e44/messages" \
   -H "Content-Type: application/json" \
   -d '{ "content": "/task Pay the rent on Friday" }'
 ```
@@ -322,7 +322,7 @@ Saves one suggestion from a reply, because the owner confirmed it. **The suggest
 | `index` | integer | Yes | 0 to 50 | The suggestion's `index` |
 
 ```bash
-curl -X POST "http://127.0.0.1:8200/api/v1/messages/42/applied-actions" \
+curl -X POST "http://127.0.0.1:8000/api/v1/messages/42/applied-actions" \
   -H "Content-Type: application/json" \
   -d '{ "index": 0 }'
 ```
@@ -396,7 +396,7 @@ Lists tasks by `status`. Open tasks come by due date, with undated ones last; do
 | `done` | boolean | No, `PATCH` only | | Checks the task off, setting `done_at`, or opens it again, clearing it |
 
 ```bash
-curl -X PATCH "http://127.0.0.1:8200/api/v1/tasks/5d1f0c2e-8a44-4f5b-9e0c-7b1a2d3c4e5f" \
+curl -X PATCH "http://127.0.0.1:8000/api/v1/tasks/5d1f0c2e-8a44-4f5b-9e0c-7b1a2d3c4e5f" \
   -H "Content-Type: application/json" \
   -d '{ "done": true }'
 ```
@@ -529,7 +529,7 @@ X-RateLimit-Remaining: 0
 
 | Item | Value |
 | :- | :- |
-| Allowed origins | `CORS_ORIGINS`, by default `http://localhost:3200` and `http://127.0.0.1:3200` |
+| Allowed origins | `CORS_ORIGINS`, by default `http://localhost:3000` and `http://127.0.0.1:3000` |
 | Allowed methods | `GET`, `POST`, `PATCH`, `DELETE` |
 | Credentials | `false` |
 

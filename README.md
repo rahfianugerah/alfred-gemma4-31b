@@ -66,14 +66,14 @@ Start the API, then the website, each in its own terminal from the repository ro
 
 ```bash
 conda activate ai-project
-uvicorn main:app --app-dir server --host 127.0.0.1 --port 8200 --reload
+uvicorn main:app --app-dir server --host 127.0.0.1 --port 8000 --reload
 ```
 
 ```bash
 npm run dev
 ```
 
-Open `http://localhost:3200`. The sidebar switches between **Chat**, **Notes**, and **Tasks**, and lists your past chats below them.
+Open `http://localhost:3000`. The sidebar switches between **Chat**, **Notes**, and **Tasks**, and lists your past chats below them.
 
 ### Chat
 
@@ -112,8 +112,8 @@ Every variable the project reads. Names only; see `.env.example`.
 | `OLLAMA_API_KEY` | Yes | The Ollama Cloud key the API sends with every model request. Never reaches the browser |
 | `OLLAMA_MODEL` | Yes | The model Ollama Cloud runs. This project uses `gemma4:31b`. No default |
 | `DATABASE_URL` | Yes | The local PostgreSQL connection, `postgresql+psycopg://...@127.0.0.1:5432/assistant` |
-| `CORS_ORIGINS` | No | Comma-separated browser origins allowed to call the API. Defaults to the website on port 3200 |
-| `NEXT_PUBLIC_ASSISTANT_URL` | No | The API origin the website calls, built into the page. Defaults to `http://127.0.0.1:8200` |
+| `CORS_ORIGINS` | No | Comma-separated browser origins allowed to call the API. Defaults to the website on port 3000 |
+| `NEXT_PUBLIC_ASSISTANT_URL` | No | The API origin the website calls, built into the page. Defaults to `http://127.0.0.1:8000` |
 
 **The model is chosen in `.env`; the system prompt and sampling live in `Modelfile`.** To switch model, set `OLLAMA_MODEL` to another model Ollama Cloud serves and restart the API; the list is at `https://ollama.com/search?c=cloud`. The API reads `SYSTEM` and every `PARAMETER` from the Modelfile at startup and sends them with each request.
 
@@ -179,7 +179,7 @@ The branch shape is trunk: `main` only. The browser tab shows the product name a
 - **Reasoning appears only for a model that returns it.** A model without thinking shows no Show Reasoning block.
 - **The Assistant limits how fast it can be asked.** Sending a message is limited to 20 a minute and everything else to 240, so a stuck loop cannot spend the Ollama usage limit. Past it, a banner says how many seconds to wait. The counts live in the API's memory and reset when it restarts.
 - **Ollama Cloud usage limits apply.** A request past the limit, or with a wrong key, fails with a "model could not answer" banner, and the question goes back into the box.
-- **There is no sign-in.** Anyone who can reach port 8200 can read and change your notes and tasks and spend the Ollama quota. The API is bound to `127.0.0.1` for that reason.
+- **There is no sign-in.** Anyone who can reach port 8000 can read and change your notes and tasks and spend the Ollama quota. The API is bound to `127.0.0.1` for that reason.
 - **The tests use the real local database.** They create and delete their own records and leave the rest alone.
 - **There are no scrollbars.** Everything still scrolls by wheel, touch, and keyboard, but nothing shows that it can.
 

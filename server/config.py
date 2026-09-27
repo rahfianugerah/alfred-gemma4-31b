@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     # No default on purpose: which model runs is chosen per machine in .env, never in the code
     ollama_model: str = Field(min_length=1)
     database_url: SecretStr
-    cors_origins: str = "http://localhost:3200,http://127.0.0.1:3200"
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
 
     @field_validator("ollama_api_key")
     @classmethod
