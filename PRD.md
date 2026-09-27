@@ -1,4 +1,4 @@
-# PRD: The Assistant
+# PRD: Alfred
 
 **Owner:** Naufal Rahfi Anugerah
 **Date:** 2026-09-27
@@ -8,7 +8,7 @@
 
 Everyday notes and to-dos end up scattered: a thought in a chat, a reminder in a message to oneself, a plan in a text file. Finding them again takes longer than writing them, so tasks slip and notes go unread. A chat assistant can help think things through, but it forgets what was said and knows nothing about what is already on the list.
 
-The earlier version of The Assistant also ran its model on the owner's machine, which is too heavy to keep loaded while working.
+The earlier version of this project also ran its model on the owner's machine, which is too heavy to keep loaded while working.
 
 ## Users
 
@@ -16,7 +16,7 @@ One person: the owner, daily, for personal notes, tasks, and everyday questions.
 
 ## What Is Built
 
-- Chat with an everyday assistant that plans, drafts, summarizes, and answers questions, and that knows the owner's open tasks and recent notes.
+- Chat with Alfred, a super assistant for the everyday routine named after Batman's loyal butler, that plans, drafts, summarizes, and answers questions, and that knows the owner's open tasks and recent notes.
 - Keep notes: write, edit, search, and delete them.
 - Keep tasks: add them with an optional due date, check them off, and delete them.
 - Ask the assistant to turn a message into a note or into tasks. It suggests them, and nothing is saved until the owner confirms each one.

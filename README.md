@@ -1,4 +1,4 @@
-# The Assistant
+# Alfred
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.141-009688?logo=fastapi&logoColor=white)
@@ -9,9 +9,9 @@
 ![Status](https://img.shields.io/badge/Status-Active-2EA043)
 ![License](https://img.shields.io/badge/License-MIT-750014)
 
-The Assistant is an everyday assistant in the browser that keeps your notes and tasks. It answers with `gemma4:31b` on Ollama Cloud, and keeps every conversation, note, and task in PostgreSQL on this machine. **No model is downloaded or run locally.**
+Alfred is a super assistant for your everyday routine, named after Batman's loyal butler. It plans your day, drafts your messages, answers everyday questions, and keeps your notes and tasks in order, all in the browser. It answers with `gemma4:31b` on Ollama Cloud and keeps every conversation, note, and task in PostgreSQL on this machine. **No model is downloaded or run locally.**
 
-It exists so planning a day, drafting a message, and keeping a to-do list happen in one place, with an assistant that already knows what is on the list. The assistant suggests notes and tasks; **nothing is saved until you confirm it.** The product intent is in [PRD.md](PRD.md) and the endpoints are in [API.md](API.md).
+Like its namesake, Alfred already knows what is on your list and suggests what to write down, but **nothing is saved until you confirm it.** The product intent is in [PRD.md](PRD.md) and the endpoints are in [API.md](API.md).
 
 ## Table of Contents
 
@@ -77,7 +77,7 @@ Open `http://localhost:3000`. The sidebar switches between **Chat**, **Notes**, 
 
 ### Chat
 
-Ask anything: plan the day, draft a message, sum up your notes. **With every message the assistant reads today's date, your open tasks, and your latest notes**, so "what is due this week?" gets a real answer. The reply streams in, and the model's reasoning sits behind **Show Reasoning** when the model returns one.
+Ask anything: plan the day, draft a message, sum up your notes. **With every message Alfred reads today's date, your open tasks, and your latest notes**, so "what is due this week?" gets a real answer. The reply streams in, and the model's reasoning sits behind **Show Reasoning** when the model returns one.
 
 **When a note or a task would help, the reply ends with suggestion cards.** Each card shows what would be saved: a new task with its due date, a new note with its first lines, or an open task to mark done. Press **Add Task**, **Save Note**, or **Mark Done** to save one, or **Save All** for every card in the reply. A saved card says **Saved** and its **Open** button takes you to the note or the task list. A card can be saved once; reopening the chat shows which ones already were.
 
@@ -130,7 +130,7 @@ Every variable the project reads. Names only; see `.env.example`.
 | Python environment | The `ai-project` conda environment | Outside the repository. Managed with conda by the owner |
 | Frontend build | `.next/`, `out/` | Gitignored. Produced by `npm run dev` and `npm run build` |
 
-**Every message is sent to Ollama Cloud together with the earlier turns, your open tasks, and the start of your latest notes.** Dictation goes through the browser's own speech service, which in Chrome and Edge sends the audio to Google or Microsoft; The Assistant keeps no audio. Keep passwords and card numbers out of notes and messages.
+**Every message is sent to Ollama Cloud together with the earlier turns, your open tasks, and the start of your latest notes.** Dictation goes through the browser's own speech service, which in Chrome and Edge sends the audio to Google or Microsoft; Alfred keeps no audio. Keep passwords and card numbers out of notes and messages.
 
 ## Project Structure
 
@@ -168,7 +168,7 @@ The branch shape is trunk: `main` only. The browser tab shows the product name a
 
 ## Known Limitations
 
-- **The assistant sees a summary, not everything.** Each message carries up to 40 open tasks and the latest 15 notes, each note cut to its first 160 characters. Ask about an older note, or open it, to work with its full text.
+- **Alfred sees a summary, not everything.** Each message carries up to 40 open tasks and the latest 15 notes, each note cut to its first 160 characters. Ask about an older note, or open it, to work with its full text.
 - **Long conversations run into the model's context window.** Every earlier turn and the summary are sent again with each message, and `num_ctx` in the Modelfile is 16384 tokens. Start a new chat for a new topic.
 - **A suggestion depends on the model writing it correctly.** A block the API cannot read shows no card, and a card to finish a task that has since been deleted is not shown.
 - **Lists show their latest 100 items.** That covers the chats in the sidebar, the notes list, and each task filter. Older ones stay in the database.
@@ -177,7 +177,7 @@ The branch shape is trunk: `main` only. The browser tab shows the product name a
 - **There are no reminders.** A due date sorts and labels a task; nothing notifies you.
 - **A stopped reply keeps what had arrived.** Pressing stop saves the partial answer, and a reply stopped before any text arrived saves nothing.
 - **Reasoning appears only for a model that returns it.** A model without thinking shows no Show Reasoning block.
-- **The Assistant limits how fast it can be asked.** Sending a message is limited to 20 a minute and everything else to 240, so a stuck loop cannot spend the Ollama usage limit. Past it, a banner says how many seconds to wait. The counts live in the API's memory and reset when it restarts.
+- **Alfred limits how fast it can be asked.** Sending a message is limited to 20 a minute and everything else to 240, so a stuck loop cannot spend the Ollama usage limit. Past it, a banner says how many seconds to wait. The counts live in the API's memory and reset when it restarts.
 - **Ollama Cloud usage limits apply.** A request past the limit, or with a wrong key, fails with a "model could not answer" banner, and the question goes back into the box.
 - **There is no sign-in.** Anyone who can reach port 8000 can read and change your notes and tasks and spend the Ollama quota. The API is bound to `127.0.0.1` for that reason.
 - **The tests use the real local database.** They create and delete their own records and leave the rest alone.

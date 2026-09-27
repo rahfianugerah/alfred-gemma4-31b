@@ -1,6 +1,6 @@
-# The Assistant API
+# Alfred API
 
-The API behind The Assistant website. It keeps conversations, notes, and tasks in the local PostgreSQL database and streams each reply from Ollama Cloud, **so the Ollama key never reaches the browser**.
+The API behind the Alfred website. It keeps conversations, notes, and tasks in the local PostgreSQL database and streams each reply from Ollama Cloud, **so the Ollama key never reaches the browser**.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ The API behind The Assistant website. It keeps conversations, notes, and tasks i
 
 ## 1. API Overview
 
-One caller, The Assistant website on the same machine. It manages notes and tasks, keeps saved conversations, and sends a message whose reply streams back while it is written. With every message the model also reads a brief of the owner's open tasks and latest notes. **The model can only suggest a note or a task; the owner saves a suggestion with a separate request.** The model comes from `OLLAMA_MODEL` and the system prompt and sampling from `Modelfile`, never from the request.
+One caller, the Alfred website on the same machine. It manages notes and tasks, keeps saved conversations, and sends a message whose reply streams back while it is written. With every message the model also reads a brief of the owner's open tasks and latest notes. **The model can only suggest a note or a task; the owner saves a suggestion with a separate request.** The model comes from `OLLAMA_MODEL` and the system prompt and sampling from `Modelfile`, never from the request.
 
 ## 2. Base Configuration
 
