@@ -147,7 +147,8 @@ server/
   migrations/             Alembic migrations
   test_main.py            the API tests
 public/
-  the-assistant-logo.png  the logo
+  alfred-gemma4-31b.png   the mascot at full size, kept as the source
+  alfred.webp             a 512px crop of its face, the avatar the page shows
 src/
   app/                    the one page, its layout, the favicon, and the black and white theme
   components/             the chat, the sidebar, the suggestion cards, the notes and tasks views, and the title editor
