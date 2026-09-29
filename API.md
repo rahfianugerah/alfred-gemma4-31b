@@ -517,7 +517,7 @@ X-RateLimit-Remaining: 0
 
 | Control | Implementation |
 | :- | :- |
-| Transport | Loopback only when started with `--host 127.0.0.1`, as the README shows |
+| Transport | Loopback only: `main.py` binds the API to `127.0.0.1` |
 | Input validation | Typed model at the boundary, unexpected fields rejected |
 | Injection | ORM queries only |
 | Model output | A suggestion is saved only on the owner's request, re-read from the stored reply and validated again; the workspace brief is marked as information, never instructions |
